@@ -1,0 +1,25 @@
+{
+  "name": "cubestack",
+  "version": "0.2.0",
+  "private": true,
+  "main": "src/plugins/cube.ts",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@types/three": "^0.103.2",
+    "core-js": "^3.6.4",
+    "three": "^0.115.0",
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3",
+    "vue-property-decorator": "^8.4.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.3.0",
+    "@vue/cli-plugin-typescript": "~4.3.0",
+    "@vue/cli-service": "~4.3.0",
+    "typescript": "~3.8.3",
+    "vue-template-compiler": "^2.6.11"
+  }
+}
