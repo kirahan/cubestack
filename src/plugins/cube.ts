@@ -7,6 +7,7 @@ import {CubeCongfig,Playerconfig,RenderConfig,PreferanceConfig,Themeconfig, pack
 import {initlocalstorage, updatelocalstorage} from './v4/cuber/localstorage'
 import {CubeStackInstance} from './v4/cuber/interfaces'
 
+export {CubeStackInstance}
 export {World,Toucher}
 export {CubeCongfig,Playerconfig,RenderConfig,PreferanceConfig,Themeconfig, packageDefaultConfig}
 
@@ -14,7 +15,7 @@ let cube = {}
 cube.install = function (Vue: Vue, options?: packageDefaultConfig) {
   initlocalstorage()
   try{
-    if(Object.keys(options).length){
+    if(options){
       let op: CubeCongfig = {
         model: 'packagedefault',
         renderconfig : options.renderconfig ? options.renderconfig : undefined,

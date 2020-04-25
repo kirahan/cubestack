@@ -311,22 +311,32 @@ export default class CubeStack extends Vue {
     this.theme.refresh();
   }
 
-  resetThemeColors() {
+  undoThemeColors() {
     try {
-      if (this.cubeconfig.model) {
-        let name = CUBESTACKLOCAL.CONFIG + this.cubeconfig.model;
-        let cubeconfig = JSON.parse(window.localStorage.getItem(name));
-        this.themeconfig = cubeconfig.themeconfig;
-      }
-      if (this.cubeconfig.themeModelName) {
-        let name = CUBESTACKLOCAL.THEME + this.cubeconfig.themeModelName;
+        let name = CUBESTACKLOCAL.THEME + (this.cubeconfig.themeModelName || this.cubeconfig.model);
         let themeconfig = JSON.parse(window.localStorage.getItem(name));
         this.themeconfig = themeconfig;
-      }
+      
     } catch {
       let name = CUBESTACKLOCAL.THEMEDEFAULT;
       let themeconfig = JSON.parse(window.localStorage.getItem(name));
       this.themeconfig = themeconfig;
+    }
+    this.theme.load(JSON.stringify(this.themeconfig));
+    this.theme.refresh();
+  }
+
+  resetThemeColors() {
+    try {
+      let name = CUBESTACKLOCAL.CONFIG + (this.cubeconfig.model || 'default');
+      let themeconfig = JSON.parse(window.localStorage.getItem(name)).themeconfig;
+      this.themeconfig = themeconfig;
+      let themename = CUBESTACKLOCAL.THEME + (this.cubeconfig.themeModelName || this.cubeconfig.mode || 'default');
+      console.log(themename)
+      console.log(themeconfig)
+      window.localStorage.setItem(themename, JSON.stringify(this.themeconfig));
+    } catch(err){
+      console.log(err)
     }
     this.theme.load(JSON.stringify(this.themeconfig));
     this.theme.refresh();
@@ -345,7 +355,9 @@ export default class CubeStack extends Vue {
         let name = CUBESTACKLOCAL.THEME + this.cubeconfig.themeModelName;
         window.localStorage.setItem(name, datajson);
       }
-    } catch {}
+    } catch(err){
+      console.log(err)
+    }
   }
 
   resize(width: number, height: number) {
