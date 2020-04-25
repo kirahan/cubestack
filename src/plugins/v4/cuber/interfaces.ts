@@ -114,6 +114,10 @@ export interface CubeStackInstance{
   playerconfig: Playerconfig,
   themeconfig: Themeconfig,
   preferance: Preferance,
+  cubeconfigmodel: string,
+  rendermodelname: string,
+  preferancemodelname: string,
+  thememodelname: string,
   theme: Theme,
   cubename: string,
   canvas: HTMLCanvasElement,
@@ -128,8 +132,11 @@ export interface CubeStackInstance{
   looplayRunning: boolean,
   autoplay_id: any,
 
+  
+  loadCubeConfig():void
   setThemeColors<T>(config: T): void
   saveThemeColors(): void
+  undoThemeColors(): void
   resetThemeColors(): void
   resize(width: number, height: number): void
   draw(): void

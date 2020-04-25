@@ -41,6 +41,8 @@ export default class CubeStack extends Vue {
   @Prop()
   cubeconfig: CubeCongfig;
 
+  cubeconfigmodel: string
+
   // 魔方大小
   @Prop()
   cubesize: number[];
@@ -51,15 +53,19 @@ export default class CubeStack extends Vue {
   world: World;
   // 渲染配置
   renderconfig: RenderConfig = {};
+  rendermodelname: string
 
   //属性配置
   preferanceconfig: PreferanceConfig = {};
+  preferancemodelname: string
 
   // 动画播放配置
   playerconfig: Playerconfig = {};
 
+
   // 主题配置
   themeconfig: Themeconfig = {};
+  thememodelname: string
 
   // 魔方主要参数
   preferance: Preferance;
@@ -130,12 +136,19 @@ export default class CubeStack extends Vue {
 
   loadCubeConfig() {
     if (this.cubeconfig) {
+      
+      // 读取模板信息
+      this.cubeconfigmodel = this.cubeconfig.model || 'default'
+      this.rendermodelname = this.cubeconfig.renderModelName || this.cubeconfig.model || 'default'
+      this.preferancemodelname = this.cubeconfig.preferanceModelName || this.cubeconfig.model || 'default'
+      this.thememodelname = this.cubeconfig.themeModelName || this.cubeconfig.model || 'default'
+
+
       // 读取总体模板
-      if (this.cubeconfig.model) {
-        if (this.cubeconfig.model != "default") {
+        if (this.cubeconfigmodel != "default") {
           let config: CubeCongfig = JSON.parse(
             window.localStorage.getItem(
-              `${CUBESTACKLOCAL.CONFIG}${this.cubeconfig.model}`
+              `${CUBESTACKLOCAL.CONFIG}${this.cubeconfigmodel}`
             )
           );
           this.renderconfig = config.renderconfig;
@@ -182,57 +195,54 @@ export default class CubeStack extends Vue {
             this.playerconfig[param] = default_player[param];
           }
         }
-      }
+
       // 读取render模板
-      if (this.cubeconfig.renderModelName) {
         try {
           let config: RenderConfig = JSON.parse(
             window.localStorage.getItem(
-              `${CUBESTACKLOCAL.RENDER}${this.cubeconfig.renderModelName}`
+              `${CUBESTACKLOCAL.RENDER}${this.rendermodelname}`
             )
           );
-          this.renderconfig = config;
+          for (let param in config) {
+            this.renderconfig[param] = config[param];
+          }
         } catch {
-          let config: RenderConfig = JSON.parse(
-            window.localStorage.getItem(CUBESTACKLOCAL.RENDERDEFAULT)
-          );
-          this.renderconfig = config;
         }
-      }
 
       // 读取preferance模板
-      if (this.cubeconfig.preferanceModelName) {
         try {
           let config: PreferanceConfig = JSON.parse(
             window.localStorage.getItem(
-              `${CUBESTACKLOCAL.PREFERANCE}${this.cubeconfig.preferanceModelName}`
+              `${CUBESTACKLOCAL.PREFERANCE}${this.preferancemodelname}`
             )
           );
-          this.preferanceconfig = config;
+          for (let param in config) {
+            this.preferanceconfig[param] = config[param];
+          }
         } catch {
-          let config: PreferanceConfig = JSON.parse(
-            window.localStorage.getItem(CUBESTACKLOCAL.PREFERANCEDEFAULT)
-          );
-          this.preferanceconfig = config;
+
         }
-      }
 
       // 读取theme模板
-      if (this.cubeconfig.themeModelName) {
+
         try {
           let config: Themeconfig = JSON.parse(
             window.localStorage.getItem(
-              `${CUBESTACKLOCAL.THEME}${this.cubeconfig.themeModelName}`
+              `${CUBESTACKLOCAL.THEME}${this.thememodelname}`
             )
           );
-          this.themeconfig = config;
+           for (let param in config) {
+            if (param == "colors") {
+              for (let color in config.colors) {
+                this.themeconfig.colors[color] = config.colors[color];
+              }
+            } else {
+              this.themeconfig[param] = config[param];
+            }
+          }
         } catch {
-          let config: Themeconfig = JSON.parse(
-            window.localStorage.getItem(CUBESTACKLOCAL.THEMEDEFAULT)
-          );
-          this.themeconfig = config;
+      
         }
-      }
 
       // 读取单独配置的renderconfig和preferanceconfig和playerconfig和themeconfig
       for (let param in this.cubeconfig.renderconfig) {
@@ -302,60 +312,46 @@ export default class CubeStack extends Vue {
     }
   }
 
+
   setThemeColors(config) {
+    let themeconfig =JSON.parse(window.localStorage.getItem(CUBESTACKLOCAL.THEME+this.thememodelname))
+    for (let param in this.cubeconfig.themeconfig) {
+        themeconfig[param] = this.cubeconfig.themeconfig[param];
+      }
     for (let con in config) {
-      this.themeconfig.colors[con] = config[con];
+      themeconfig.colors[con] = config[con];
     }
-    const datajson = JSON.stringify(this.themeconfig);
+    const datajson = JSON.stringify(themeconfig);
+    this.themeconfig = themeconfig
     this.theme.load(datajson);
     this.theme.refresh();
   }
 
   undoThemeColors() {
-    try {
-        let name = CUBESTACKLOCAL.THEME + (this.cubeconfig.themeModelName || this.cubeconfig.model);
-        let themeconfig = JSON.parse(window.localStorage.getItem(name));
-        this.themeconfig = themeconfig;
-      
-    } catch {
-      let name = CUBESTACKLOCAL.THEMEDEFAULT;
-      let themeconfig = JSON.parse(window.localStorage.getItem(name));
-      this.themeconfig = themeconfig;
-    }
-    this.theme.load(JSON.stringify(this.themeconfig));
-    this.theme.refresh();
+    // let name = CUBESTACKLOCAL.THEME + this.thememodelname;
+    // let themeconfig = JSON.parse(window.localStorage.getItem(name));
+    // this.themeconfig = themeconfig;
+    // this.theme.load(JSON.stringify(this.themeconfig));
+    // this.theme.refresh();
+    this.loadCubeConfig()
   }
 
   resetThemeColors() {
     try {
-      let name = CUBESTACKLOCAL.CONFIG + (this.cubeconfig.model || 'default');
-      let themeconfig = JSON.parse(window.localStorage.getItem(name)).themeconfig;
-      this.themeconfig = themeconfig;
-      let themename = CUBESTACKLOCAL.THEME + (this.cubeconfig.themeModelName || this.cubeconfig.mode || 'default');
-      console.log(themename)
-      console.log(themeconfig)
-      window.localStorage.setItem(themename, JSON.stringify(this.themeconfig));
+      let themebackup = JSON.parse(window.localStorage.getItem(this.cubeconfigmodel)).themeconfig;
+      window.localStorage.setItem(this.thememodelname, JSON.stringify(themebackup));
     } catch(err){
       console.log(err)
     }
-    this.theme.load(JSON.stringify(this.themeconfig));
-    this.theme.refresh();
+    this.loadCubeConfig()
   }
 
   saveThemeColors() {
     const datajson = JSON.stringify(this.themeconfig);
     try {
-      if (this.cubeconfig.model) {
-        let name = CUBESTACKLOCAL.CONFIG + this.cubeconfig.model;
-        let cubeconfig = JSON.parse(window.localStorage.getItem(name));
-        cubeconfig.themeconfig = this.themeconfig;
-        window.localStorage.setItem(name, JSON.stringify(cubeconfig));
+        window.localStorage.setItem(this.thememodelname, datajson);
       }
-      if (this.cubeconfig.themeModelName) {
-        let name = CUBESTACKLOCAL.THEME + this.cubeconfig.themeModelName;
-        window.localStorage.setItem(name, datajson);
-      }
-    } catch(err){
+    catch(err){
       console.log(err)
     }
   }

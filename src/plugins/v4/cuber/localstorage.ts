@@ -161,8 +161,7 @@ export function getrealcolorsconfig(bottomlayer: string, colors: any): object{
         case FACE.D:
             return colors
         case FACE.U:
-            [colors['U'],colors['D']] = [colors['D'],colors['U']]
-            [colors['R'],colors['L']] = [colors['L'],colors['R']]
+            [colors['U'],colors['D'],colors['R'],colors['L']] = [colors['D'],colors['U'],colors['L'],colors['R']]
             return colors
         case FACE.R:
             [colors['D'],colors['R'],colors['U'],colors['L']] = [colors['R'],colors['U'],colors['L'],colors['D']]
