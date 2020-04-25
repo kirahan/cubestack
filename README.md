@@ -217,6 +217,13 @@ Vue.use(cube, options)
 </table>
 
 5. bottomlayer set the color of bottomlayer 
+default bottom layer is white color
+- U yellow
+- D white
+- R red
+- L orange
+- F green
+- B blue
 
 # api
 todo

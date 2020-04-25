@@ -4,7 +4,8 @@ import CubeStack from './cubestack.vue'
 import World from './v4/cuber/world'
 import Toucher from './v4/common/toucher';
 import {CubeCongfig,Playerconfig,RenderConfig,PreferanceConfig,Themeconfig, packageDefaultConfig} from './v4/cuber/interfaces'
-import {initlocalstorage, updatelocalstorage} from './v4/cuber/interfaces'
+import {initlocalstorage, updatelocalstorage} from './v4/cuber/localstorage'
+import {CubeStackInstance} from './v4/cuber/interfaces'
 
 export {World,Toucher}
 export {CubeCongfig,Playerconfig,RenderConfig,PreferanceConfig,Themeconfig, packageDefaultConfig}
@@ -36,10 +37,8 @@ cube.install = function (Vue: Vue, options?: packageDefaultConfig) {
   Vue.prototype.$cubemethod = {
     test(){
       console.log('run test')
-    }
-    
+    }, 
   }
-  // Vue.initlocalstorage()
 
   Vue.component('cubesample', CubeSample)
   Vue.component('cubestack', CubeStack)

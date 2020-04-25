@@ -8,7 +8,7 @@
 import Vue from 'vue'
 import {Component, Prop, Ref, Provide, Watch} from 'vue-property-decorator'
 import CubeStack from './cubestack.vue';
-import { CubeCongfig } from './v4/cuber/interfaces'
+import { CubeCongfig, CubeStackInstance } from './v4/cuber/interfaces'
 import World from './v4/cuber/world';
 
 @Component({name:'CubeSample',components:{CubeStack}})
@@ -17,7 +17,7 @@ export default class CubeSample extends Vue{
     super()
     }
 
-    @Ref('render') render: CubeStack
+    @Ref('render') render!: CubeStack
 
     world: World = new World()
 

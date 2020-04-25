@@ -216,8 +216,15 @@ Vue.use(cube, options)
     </tbody>
 </table>
 
-5. bottomlayer 底层为什么颜色
-
+5. bottomlayer 底层为什么颜色  
+默认白底
+- U 黄
+- D 白
+- R 红
+- L 橙
+- F 绿
+- B 蓝
+- 
 # api
 待更新
 

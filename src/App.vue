@@ -8,6 +8,7 @@
 <script lang="ts">
 import {  Vue, Component } from 'vue-property-decorator';
 import { CubeCongfig } from './plugins/cube';
+import { CubeStackInstance } from './plugins/v4/cuber/interfaces';
 
 
 @Component({name:'App',components:{}})
@@ -20,7 +21,7 @@ export default class App extends Vue {
   }
   
   mounted(){
-    console.log(this.$sampleRender)
+    
   }
 }
 </script>
