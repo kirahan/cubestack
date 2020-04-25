@@ -1,0 +1,3 @@
+<template>
+    <cubesample></cubesample>
+</template>

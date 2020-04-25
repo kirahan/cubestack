@@ -19,6 +19,7 @@ let options: packageDefaultConfig = {
 }
 
 Vue.use(cube, options)
+// Vue.use(cube)
 new Vue({
   render: h => h(App),
 }).$mount('#app')

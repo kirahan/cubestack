@@ -1,6 +1,6 @@
 {
   "name": "cubestack",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "main": "src/plugins/cube.ts",
   "scripts": {
     "serve": "vue-cli-service serve",

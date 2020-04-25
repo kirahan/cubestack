@@ -20,7 +20,7 @@ export default class App extends Vue {
   }
   
   mounted(){
-
+    console.log(this.$sampleRender)
   }
 }
 </script>

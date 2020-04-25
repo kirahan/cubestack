@@ -38,6 +38,10 @@ export default class CubeSample extends Vue{
         }
     cubesize: number[] = [400,400]
 
+    mounted(){
+        Vue.prototype.$sampleRender = this.render
+    }
+
 }
 </script>
 

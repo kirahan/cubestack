@@ -10,23 +10,28 @@ export {World,Toucher}
 export {CubeCongfig,Playerconfig,RenderConfig,PreferanceConfig,Themeconfig, packageDefaultConfig}
 
 let cube = {}
-cube.install = function (Vue: Vue, options: packageDefaultConfig) {
+cube.install = function (Vue: Vue, options?: packageDefaultConfig) {
   initlocalstorage()
-  if(Object.keys(options).length){
-    let op: CubeCongfig = {
-      model: 'packagedefault',
-      renderconfig : options.renderconfig ? options.renderconfig : undefined,
-      renderModelName : options.renderconfig ? 'default' : undefined,
-      playerconfig : options.playerconfig ? options.playerconfig : undefined,
-      themeconfig : options.themeconfig ? options.themeconfig : undefined,
-      themeModelName : options.themeconfig ? 'default' : undefined,
-      preferanceconfig : options.preferanceconfig ? options.preferanceconfig : undefined,
-      preferanceModelName : options.preferanceconfig ? 'default' : undefined,
-      bottomlayer : options.bottomlayer ? options.bottomlayer : undefined,
+  try{
+    if(Object.keys(options).length){
+      let op: CubeCongfig = {
+        model: 'packagedefault',
+        renderconfig : options.renderconfig ? options.renderconfig : undefined,
+        renderModelName : options.renderconfig ? 'default' : undefined,
+        playerconfig : options.playerconfig ? options.playerconfig : undefined,
+        themeconfig : options.themeconfig ? options.themeconfig : undefined,
+        themeModelName : options.themeconfig ? 'default' : undefined,
+        preferanceconfig : options.preferanceconfig ? options.preferanceconfig : undefined,
+        preferanceModelName : options.preferanceconfig ? 'default' : undefined,
+        bottomlayer : options.bottomlayer ? options.bottomlayer : undefined,
+      }
+  
+      updatelocalstorage(op)
     }
-
-    updatelocalstorage(op)
+  }catch{
+    null
   }
+ 
 
   Vue.prototype.$cubemethod = {
     test(){
