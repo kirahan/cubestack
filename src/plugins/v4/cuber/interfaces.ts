@@ -132,8 +132,9 @@ export interface CubeStackInstance{
   looplayRunning: boolean,
   autoplay_id: any,
 
-  
+
   loadCubeConfig():void
+  setbottom(layer: string): void
   setThemeColors<T>(config: T): void
   saveThemeColors(): void
   undoThemeColors(): void

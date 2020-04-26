@@ -260,13 +260,7 @@ export default class CubeStack extends Vue {
       for (let param in this.cubeconfig.themeconfig) {
         this.themeconfig[param] = this.cubeconfig.themeconfig[param];
       }
-
-      // 设置底色
-      let colors = this.themeconfig.colors
-      let bottomlayer = this.cubeconfig.bottomlayer || window.localStorage.getItem(CUBESTACKLOCAL.BOTTOMLAYER) || 'D'
-      colors = getrealcolorsconfig(bottomlayer, colors)
-      this.themeconfig.colors = colors
-
+      
       // 保存主要配置
       this.size = this.cubesize
         ? this.cubesize
@@ -279,6 +273,9 @@ export default class CubeStack extends Vue {
       this.preferance.load(JSON.stringify(this.preferanceconfig));
       this.preferance.refresh();
 
+      // 设置底色
+      let bottomlayer = this.cubeconfig.bottomlayer || window.localStorage.getItem(CUBESTACKLOCAL.BOTTOMLAYER) || 'D'
+      this.setbottom(bottomlayer)
       this.theme.load(JSON.stringify(this.themeconfig));
       this.theme.refresh();
 
@@ -312,34 +309,38 @@ export default class CubeStack extends Vue {
     }
   }
 
+  setbottom(layer: string){
+    // 设置底色
+      let themeconfig = JSON.parse(JSON.stringify(this.themeconfig))
+      let colors = themeconfig.colors
+      let newcolors = getrealcolorsconfig(layer, colors)
+      themeconfig.colors = newcolors
+      // for(let key in colors){
+      //   console.log(key, this.themeconfig.colors[key], newcolors[key])
+      // }
+      this.theme.load(JSON.stringify(themeconfig));
+      this.theme.refresh();
+  }
+
 
   setThemeColors(config) {
-    let themeconfig =JSON.parse(window.localStorage.getItem(CUBESTACKLOCAL.THEME+this.thememodelname))
-    for (let param in this.cubeconfig.themeconfig) {
-        themeconfig[param] = this.cubeconfig.themeconfig[param];
-      }
     for (let con in config) {
-      themeconfig.colors[con] = config[con];
+      this.themeconfig.colors[con] = config[con];
     }
-    const datajson = JSON.stringify(themeconfig);
-    this.themeconfig = themeconfig
-    this.theme.load(datajson);
-    this.theme.refresh();
+    let bottomlayer = window.localStorage.getItem(CUBESTACKLOCAL.BOTTOMLAYER) || 'D'
+    this.setbottom(bottomlayer)
   }
 
   undoThemeColors() {
-    // let name = CUBESTACKLOCAL.THEME + this.thememodelname;
-    // let themeconfig = JSON.parse(window.localStorage.getItem(name));
-    // this.themeconfig = themeconfig;
-    // this.theme.load(JSON.stringify(this.themeconfig));
-    // this.theme.refresh();
     this.loadCubeConfig()
   }
 
   resetThemeColors() {
+    let localname = CUBESTACKLOCAL.CONFIG + this.cubeconfigmodel
+    let themename = CUBESTACKLOCAL.THEME + this.thememodelname
     try {
-      let themebackup = JSON.parse(window.localStorage.getItem(this.cubeconfigmodel)).themeconfig;
-      window.localStorage.setItem(this.thememodelname, JSON.stringify(themebackup));
+      let themebackup = JSON.parse(window.localStorage.getItem(localname)).themeconfig;
+      window.localStorage.setItem(themename, JSON.stringify(themebackup))
     } catch(err){
       console.log(err)
     }
@@ -347,9 +348,10 @@ export default class CubeStack extends Vue {
   }
 
   saveThemeColors() {
+    let localname = CUBESTACKLOCAL.THEME+this.thememodelname
     const datajson = JSON.stringify(this.themeconfig);
     try {
-        window.localStorage.setItem(this.thememodelname, datajson);
+        window.localStorage.setItem(localname, datajson);
       }
     catch(err){
       console.log(err)
