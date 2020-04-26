@@ -260,7 +260,7 @@ export default class CubeStack extends Vue {
       for (let param in this.cubeconfig.themeconfig) {
         this.themeconfig[param] = this.cubeconfig.themeconfig[param];
       }
-      
+
       // 保存主要配置
       this.size = this.cubesize
         ? this.cubesize
@@ -276,8 +276,6 @@ export default class CubeStack extends Vue {
       // 设置底色
       let bottomlayer = this.cubeconfig.bottomlayer || window.localStorage.getItem(CUBESTACKLOCAL.BOTTOMLAYER) || 'D'
       this.setbottom(bottomlayer)
-      this.theme.load(JSON.stringify(this.themeconfig));
-      this.theme.refresh();
 
       // 设置遮罩层
       if (this.world.order == 3 && this.renderconfig.masktype) {
