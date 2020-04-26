@@ -1,6 +1,6 @@
 {
   "name": "cubestack",
-  "version": "0.4.2",
+  "version": "0.4.4",
   "main": "src/plugins/cube.ts",
   "license": "MIT",
   "scripts": {

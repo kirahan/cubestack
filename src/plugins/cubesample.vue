@@ -36,7 +36,7 @@ export default class CubeSample extends Vue{
                 autorotate:true
             }
         }
-    cubesize: number[] = [400,400]
+    cubesize: number[] = [300,300]
 
     mounted(){
         Vue.prototype.$sampleRender = this.render
