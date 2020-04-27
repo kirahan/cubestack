@@ -7,7 +7,7 @@ import {CubeCongfig,Playerconfig,RenderConfig,PreferanceConfig,Themeconfig, pack
 import {initlocalstorage, updatelocalstorage} from './v4/cuber/localstorage'
 import {CubeStackInstance} from './v4/cuber/interfaces'
 
-export {CubeStackInstance}
+export {CubeStackInstance, CubeStack}
 export {World,Toucher}
 export {CubeCongfig,Playerconfig,RenderConfig,PreferanceConfig,Themeconfig, packageDefaultConfig}
 
